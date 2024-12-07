@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conferencias</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lectures List</h1>
+        
+        <!-- Sección para mostrar las conferencias -->
+        <div id="lectures-list">
+            <h2>Loading Lectures...</h2>
+        </div>
+
+        <!-- Formulario para agregar una nueva conferencia -->
+        <h2>Add New Lecture</h2>
+        <form id="lecture-form">
+            <input type="text" id="title" placeholder="Title" required>
+            <textarea id="description" placeholder="Description" required></textarea>
+            <button type="submit">Add Lecture</button>
+        </form>
+
+        <!-- Formulario de búsqueda por ID -->
+        <h2>Search Lecture by ID</h2>
+        <form id="search-form">
+            <input type="number" id="search-id" placeholder="Lecture ID" required>
+            <button type="submit">Search Lecture</button>
+        </form>
+
+        <!-- Resultado de la búsqueda -->
+        <div id="search-result">
+            <!-- Aquí se mostrará el resultado de la búsqueda -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
