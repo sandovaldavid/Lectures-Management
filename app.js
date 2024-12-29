@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:4000/api/lectures'; // Ajusta la URL según tu API
+const apiUrl = 'https://example-api-rest-yy8i.onrender.com/api/lectures'; // Ajusta la URL según tu API
 
 // Función para cargar las conferencias
 const loadLectures = async () => {
