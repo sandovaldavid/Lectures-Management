@@ -6,35 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conferencias</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Agregamos Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <div class="container">
-        <h1>Lectures List</h1>
-        
-        <!-- Sección para mostrar las conferencias -->
-        <div id="lectures-list">
-            <h2>Loading Lectures...</h2>
+        <h1><i class="fas fa-chalkboard-teacher"></i> Lectures Management</h1>
+
+        <div id="lectures-list" class="card">
+            <h2><i class="fas fa-list"></i> Available Lectures</h2>
+            <div class="lectures-container">
+                <h3>Loading Lectures... <i class="fas fa-spinner fa-spin"></i></h3>
+            </div>
         </div>
 
-        <!-- Formulario para agregar una nueva conferencia -->
-        <h2>Add New Lecture</h2>
-        <form id="lecture-form">
-            <input type="text" id="title" placeholder="Title" required>
-            <textarea id="description" placeholder="Description" required></textarea>
-            <button type="submit">Add Lecture</button>
-        </form>
+        <div class="card">
+            <h2><i class="fas fa-plus-circle"></i> Add New Lecture</h2>
+            <form id="lecture-form">
+                <div class="input-group">
+                    <i class="fas fa-heading"></i>
+                    <input type="text" id="title" placeholder="Enter lecture title" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-align-left"></i>
+                    <textarea id="description" placeholder="Enter lecture description" required></textarea>
+                </div>
+                <button type="submit">
+                    <i class="fas fa-plus"></i> Add Lecture
+                </button>
+            </form>
+        </div>
 
-        <!-- Formulario de búsqueda por ID -->
-        <h2>Search Lecture by ID</h2>
-        <form id="search-form">
-            <input type="number" id="search-id" placeholder="Lecture ID" required>
-            <button type="submit">Search Lecture</button>
-        </form>
-
-        <!-- Resultado de la búsqueda -->
-        <div id="search-result">
-            <!-- Aquí se mostrará el resultado de la búsqueda -->
+        <div class="card">
+            <h2><i class="fas fa-search"></i> Search Lecture</h2>
+            <form id="search-form">
+                <div class="input-group">
+                    <i class="fas fa-id-card"></i>
+                    <input type="number" id="search-id" placeholder="Enter lecture ID" required>
+                </div>
+                <button type="submit">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </form>
+            <div id="search-result" class="search-result">
+                <!-- Results will appear here -->
+            </div>
         </div>
     </div>
 
