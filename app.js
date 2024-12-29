@@ -4,12 +4,12 @@ const apiUrl = 'https://example-api-rest-yy8i.onrender.com/api/lectures'; // Aju
 const loadLectures = async () => {
     try {
         const response = await fetch(apiUrl);
-        const {data} = await response.json();
+        const { data } = await response.json();
         console.log('Conferencias cargadas:', data);
-        
+
         const lecturesList = document.getElementById('lectures-list');
         lecturesList.innerHTML = ''; // Limpiar la lista antes de agregar nuevos elementos
-        
+
         if (data.length === 0) {
             lecturesList.innerHTML = '<p>No hay conferencias disponibles.</p>';
         } else {
@@ -70,8 +70,8 @@ const searchLectureById = async (event) => {
 
     try {
         const response = await fetch(`${apiUrl}/${searchId}`);
-        const {data} = await response.json();
-        
+        const { data } = await response.json();
+
         if (response.ok) {
             const lecture = data;
             const lectureInfo = `
@@ -94,6 +94,6 @@ document.getElementById('lecture-form').addEventListener('submit', addLecture);
 document.getElementById('search-form').addEventListener('submit', searchLectureById);
 
 // Load lectures after 5 seconds
-window.onload = function() {
-  setTimeout(loadLectures, 700);
+window.onload = function () {
+    setTimeout(loadLectures, 700);
 };
