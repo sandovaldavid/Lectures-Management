@@ -1,4 +1,4 @@
-const apiUrl = 'https://example-api-rest-yy8i.onrender.com/api/lectures'; // Ajusta la URL según tu API
+const apiUrl = 'http://localhost:4000/api/lectures'; // Ajusta la URL según tu API
 
 // Función para cargar las conferencias
 const loadLectures = async () => {
@@ -87,6 +87,87 @@ const searchLectureById = async (event) => {
         console.error('Error al buscar la conferencia:', error);
         searchResultDiv.innerHTML = '<p>Hubo un error al realizar la búsqueda.</p>';
     }
+};
+
+// Función para eliminar una conferencia
+const deleteLecture = async (id) => {
+    if (!confirm('¿Está seguro que desea eliminar esta conferencia?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${apiUrl}/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            // Actualizar la lista de conferencias
+            loadLectures();
+            alert('Conferencia eliminada con éxito');
+        } else {
+            alert('Error al eliminar la conferencia');
+        }
+    } catch (error) {
+        console.error('Error al eliminar la conferencia:', error);
+        alert('Error al eliminar la conferencia');
+    }
+};
+
+// Función para actualizar una conferencia
+const updateLecture = async (id) => {
+    const title = prompt('Ingrese el nuevo título:');
+    const description = prompt('Ingrese la nueva descripción:');
+
+    if (!title || !description) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`${apiUrl}/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title, description })
+        });
+
+        if (response.ok) {
+            // Actualizar la lista de conferencias
+            loadLectures();
+            alert('Conferencia actualizada con éxito');
+        } else {
+            alert('Error al actualizar la conferencia');
+        }
+    } catch (error) {
+        console.error('Error al actualizar la conferencia:', error);
+        alert('Error al actualizar la conferencia');
+    }
+};
+
+// Modificar la función displayLectures para incluir los botones de actualizar y eliminar
+const displayLectures = (lectures) => {
+    const lecturesContainer = document.querySelector('.lectures-container');
+    if (lectures.length === 0) {
+        lecturesContainer.innerHTML = '<p>No hay conferencias disponibles.</p>';
+        return;
+    }
+
+    const lecturesList = lectures.map(lecture => `
+        <div class="lecture-item">
+            <h3>${lecture.title}</h3>
+            <p>${lecture.description}</p>
+            <div class="lecture-actions">
+                <button onclick="updateLecture(${lecture.id})" class="btn-update">
+                    <i class="fas fa-edit"></i> Editar
+                </button>
+                <button onclick="deleteLecture(${lecture.id})" class="btn-delete">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+            </div>
+        </div>
+    `).join('');
+
+    lecturesContainer.innerHTML = lecturesList;
 };
 
 // Inicialización
