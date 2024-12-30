@@ -5,7 +5,6 @@ const loadLectures = async () => {
     try {
         const response = await fetch(apiUrl);
         const { data } = await response.json();
-        console.log('Conferencias cargadas:', data);
 
         // Usar displayLectures en lugar de crear elementos manualmente
         displayLectures(data);
@@ -36,7 +35,6 @@ const addLecture = async (event) => {
         });
 
         if (response.ok) {
-            console.log('Conferencia agregada');
             document.getElementById('title').value = '';
             document.getElementById('description').value = '';
             loadLectures(); // Volver a cargar las conferencias
