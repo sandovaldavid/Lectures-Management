@@ -149,18 +149,19 @@ const displayLectures = (lectures) => {
     }
 
     const lecturesList = lectures.map(lecture => {
-        // Validar que lecture tenga todas las propiedades necesarias
         if (!lecture.id || !lecture.title || !lecture.description) {
             console.error('lecture inválida:', lecture);
             return '';
         }
+
+        const lectureJson = JSON.stringify(lecture).replace(/'/g, "\\'").replace(/"/g, '\\"');
 
         return `
             <div class="lecture-item">
                 <h3>${lecture.title}</h3>
                 <p>${lecture.description}</p>
                 <div class="lecture-actions">
-                    <button onclick="showUpdateForm(${JSON.stringify(lecture)})" class="btn-update">
+                    <button onclick='showUpdateForm(JSON.parse("${lectureJson}"))' class="btn-update">
                         <i class="fas fa-edit"></i> Edit
                     </button>
                     <button onclick="deleteLecture(${lecture.id})" class="btn-delete">
@@ -176,12 +177,17 @@ const displayLectures = (lectures) => {
 
 // Función para mostrar el formulario de actualización
 const showUpdateForm = (lecture) => {
-    document.getElementById('update-form-container').style.display = 'block';
+    const container = document.getElementById('update-form-container');
+    if (!container) {
+        console.error('Update form container not found');
+        return;
+    }
+
+    container.style.display = 'block';
     document.getElementById('update-id').value = lecture.id;
     document.getElementById('update-title').value = lecture.title;
     document.getElementById('update-description').value = lecture.description;
-    // Scroll to update form
-    document.getElementById('update-form-container').scrollIntoView({ behavior: 'smooth' });
+    container.scrollIntoView({ behavior: 'smooth' });
 };
 
 // Función para cancelar la actualización
