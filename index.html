@@ -53,6 +53,29 @@
                 <!-- Results will appear here -->
             </div>
         </div>
+        <!-- Update Lecture -->
+        <div class="card" id="update-form-container" style="display: none;">
+            <h2><i class="fas fa-edit"></i> Update Lecture</h2>
+            <form id="update-form">
+                <input type="hidden" id="update-id">
+                <div class="input-group">
+                    <i class="fas fa-heading"></i>
+                    <input type="text" id="update-title" placeholder="Enter new title" required>
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-align-left"></i>
+                    <textarea id="update-description" placeholder="Enter new description" required></textarea>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn-update">
+                        <i class="fas fa-save"></i> Update Lecture
+                    </button>
+                    <button type="button" class="btn-cancel" onclick="cancelUpdate()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="app.js"></script>
