@@ -7,25 +7,13 @@ const loadLectures = async () => {
         const { data } = await response.json();
         console.log('Conferencias cargadas:', data);
 
-        const lecturesList = document.getElementById('lectures-list');
-        lecturesList.innerHTML = ''; // Limpiar la lista antes de agregar nuevos elementos
+        // Usar displayLectures en lugar de crear elementos manualmente
+        displayLectures(data);
 
-        if (data.length === 0) {
-            lecturesList.innerHTML = '<p>No hay conferencias disponibles.</p>';
-        } else {
-            const ul = document.createElement('ul');
-            data.forEach(lecture => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    <strong>${lecture.title}</strong><br>
-                    ${lecture.description}
-                `;
-                ul.appendChild(li);
-            });
-            lecturesList.appendChild(ul);
-        }
     } catch (error) {
         console.error('Error al cargar las conferencias:', error);
+        const lecturesContainer = document.querySelector('.lectures-container');
+        lecturesContainer.innerHTML = '<p>Error al cargar las conferencias</p>';
     }
 };
 
@@ -144,31 +132,93 @@ const updateLecture = async (id) => {
     }
 };
 
-// Modificar la función displayLectures para incluir los botones de actualizar y eliminar
+// Modificar la función displayLectures para mostrar los items con botones
 const displayLectures = (lectures) => {
     const lecturesContainer = document.querySelector('.lectures-container');
+
+    // Validar que lectures sea un array
+    if (!Array.isArray(lectures)) {
+        console.error('lectures debe ser un array');
+        lecturesContainer.innerHTML = '<p>Error al mostrar las conferencias</p>';
+        return;
+    }
+
     if (lectures.length === 0) {
         lecturesContainer.innerHTML = '<p>No hay conferencias disponibles.</p>';
         return;
     }
 
-    const lecturesList = lectures.map(lecture => `
-        <div class="lecture-item">
-            <h3>${lecture.title}</h3>
-            <p>${lecture.description}</p>
-            <div class="lecture-actions">
-                <button onclick="updateLecture(${lecture.id})" class="btn-update">
-                    <i class="fas fa-edit"></i> Editar
-                </button>
-                <button onclick="deleteLecture(${lecture.id})" class="btn-delete">
-                    <i class="fas fa-trash"></i> Eliminar
-                </button>
+    const lecturesList = lectures.map(lecture => {
+        // Validar que lecture tenga todas las propiedades necesarias
+        if (!lecture.id || !lecture.title || !lecture.description) {
+            console.error('lecture inválida:', lecture);
+            return '';
+        }
+
+        return `
+            <div class="lecture-item">
+                <h3>${lecture.title}</h3>
+                <p>${lecture.description}</p>
+                <div class="lecture-actions">
+                    <button onclick="showUpdateForm(${JSON.stringify(lecture)})" class="btn-update">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button onclick="deleteLecture(${lecture.id})" class="btn-delete">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 
     lecturesContainer.innerHTML = lecturesList;
 };
+
+// Función para mostrar el formulario de actualización
+const showUpdateForm = (lecture) => {
+    document.getElementById('update-form-container').style.display = 'block';
+    document.getElementById('update-id').value = lecture.id;
+    document.getElementById('update-title').value = lecture.title;
+    document.getElementById('update-description').value = lecture.description;
+    // Scroll to update form
+    document.getElementById('update-form-container').scrollIntoView({ behavior: 'smooth' });
+};
+
+// Función para cancelar la actualización
+const cancelUpdate = () => {
+    document.getElementById('update-form-container').style.display = 'none';
+    document.getElementById('update-form').reset();
+};
+
+// Agregar el event listener para el formulario de actualización
+document.getElementById('update-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const id = document.getElementById('update-id').value;
+    const title = document.getElementById('update-title').value;
+    const description = document.getElementById('update-description').value;
+
+    try {
+        const response = await fetch(`${apiUrl}/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title, description })
+        });
+
+        if (response.ok) {
+            cancelUpdate();
+            loadLectures();
+            alert('Lecture updated successfully');
+        } else {
+            alert('Error updating lecture');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error updating lecture');
+    }
+});
 
 // Inicialización
 document.getElementById('lecture-form').addEventListener('submit', addLecture);
