@@ -12,6 +12,8 @@ A modern web application for managing lectures with CRUD operations (Create, Rea
 - 💫 Smooth animations and transitions
 - 📱 Responsive design
 
+## [Backend](https://github.com/sandovaldavid/api-lectures-management)
+
 ## Technologies Used
 
 - HTML5
